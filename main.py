@@ -11,5 +11,14 @@ async def upload_file(upload_file: UploadFile):
         f.write(file.read())
 
 
+@app.post('/multiple-files')
+async def upload_files(upload_files: list[UploadFile]):
+    for index, upload_file in enumerate(upload_files):
+        file = upload_file.file
+        filename = upload_file.filename
+        with open(f'{index}_{filename}', 'wb') as f:
+            f.write(file.read())
+
+
 if __name__ == '__main__':
     uvicorn.run('main:app', reload=True)
